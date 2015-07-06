@@ -230,13 +230,6 @@ minetest.register_craft({
 	recipe = {"farming:wheat", "farming:wheat", "farming:wheat", "farming:wheat"}
 })
 
-minetest.register_craft({
-	type = "cooking",
-	cooktime = 15,
-	output = "farming:bread",
-	recipe = "farming:flour"
-})
-
 for i=1,8 do
 	local drop = {
 		items = {
