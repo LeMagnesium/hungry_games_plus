@@ -693,9 +693,7 @@ minetest.register_node("default:chest", {
 		inv:set_size("main", 8*4)
 	end,
 	can_dig = function(pos,player)
-		local meta = minetest.get_meta(pos);
-		local inv = meta:get_inventory()
-		return inv:is_empty("main")
+		return true
 	end,
 	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", player:get_player_name()..
