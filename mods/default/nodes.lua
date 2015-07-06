@@ -1095,8 +1095,8 @@ minetest.register_node("default:sapling", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("default:apple", {
-	description = "Apple",
+minetest.register_node("default:apple_node", {
+	description = "Placable Apple",
 	drawtype = "plantlike",
 	visual_scale = 1.0,
 	tiles = {"default_apple.png"},
@@ -1114,10 +1114,13 @@ minetest.register_node("default:apple", {
 	sounds = default.node_sound_leaves_defaults(),
 	after_place_node = function(pos, placer, itemstack)
 		if placer:is_player() then
-			minetest.set_node(pos, {name="default:apple", param2=1})
+			minetest.set_node(pos, {name="default:apple_node", param2=1})
 		end
 	end,
+	drop = "default:apple_item"
 })
+
+minetest.register_alias("default:apple", "default:apple_node")
 
 minetest.register_node("default:dry_shrub", {
 	description = "Dry Shrub",

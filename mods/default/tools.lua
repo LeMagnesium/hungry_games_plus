@@ -330,3 +330,10 @@ minetest.register_tool("default:sword_diamond", {
 		damage_groups = {fleshy=8},
 	}
 })
+
+minetest.register_craftitem("default:apple_item", {
+	description = "Apple",
+	wield_image = "default_apple.png",
+	inventory_image = "default_apple.png",
+	on_use = minetest.item_eat(1),
+})
