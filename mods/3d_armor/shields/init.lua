@@ -38,7 +38,7 @@ minetest.register_tool("shields:shield_mithril", {
 })
 
 local craft_ingreds = {
-	wood = "default:wood",
+	wood = "group:wood",
 	steel = "default:steel_ingot",
 	bronze = "default:bronze_ingot",
 	diamond = "default:diamond",

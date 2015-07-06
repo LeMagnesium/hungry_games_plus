@@ -160,7 +160,7 @@ end
 -- Register Craft Recipies
 
 local craft_ingreds = {
-	wood = "default:wood",
+	wood = "group:wood",
 	steel = "default:steel_ingot",
 	bronze = "default:bronze_ingot",
 	diamond = "default:diamond",
