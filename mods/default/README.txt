@@ -190,3 +190,4 @@ Wuzzy and others (WTFPL)
   crosshair.png
   gui_hudbar.png
   gui_hudbar_selected.png
+  default_ladder_steel.png

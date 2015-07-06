@@ -423,7 +423,7 @@ minetest.register_node("default:rail", {
 })
 
 minetest.register_node("default:ladder", {
-	description = "Ladder",
+	description = "Wooden Ladder",
 	drawtype = "signlike",
 	tiles = {"default_ladder.png"},
 	inventory_image = "default_ladder.png",
@@ -439,10 +439,30 @@ minetest.register_node("default:ladder", {
 		--wall_bottom = = <default>
 		--wall_side = = <default>
 	},
-	groups = {choppy=2,oddly_breakable_by_hand=3,flammable=2},
+	groups = {choppy=2,oddly_breakable_by_hand=3,flammable=2,ladder_diggable=1},
 	legacy_wallmounted = true,
 	sounds = default.node_sound_wood_defaults(),
 })
+
+minetest.register_node("default:ladder_steel", {
+	description = "Steel Ladder",
+	drawtype = "signlike",
+	tiles = {"default_ladder_steel.png"},
+	inventory_image = "default_ladder_steel.png",
+	wield_image = "default_ladder_steel.png",
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	walkable = false,
+	climbable = true,
+	is_ground_content = false,
+	selection_box = {
+		type = "wallmounted",
+	},
+	groups = {choppy=2,oddly_breakable_by_hand=3},
+	legacy_wallmounted = true,
+	sounds = default.node_sound_stone_defaults(),
+})
+
 
 minetest.register_node("default:wood", {
 	description = "Wooden Planks",
