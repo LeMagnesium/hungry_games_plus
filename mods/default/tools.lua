@@ -11,7 +11,8 @@ minetest.register_item(":", {
 		groupcaps = {
 			crumbly = {times={[2]=3.00, [3]=0.70}, uses=0, maxlevel=1},
 			snappy = {times={[3]=0.40}, uses=0, maxlevel=1},
-			oddly_breakable_by_hand = {times={[1]=3.50,[2]=2.00,[3]=0.70}, uses=0}
+			oddly_breakable_by_hand = {times={[1]=3.50,[2]=2.00,[3]=0.70}, uses=0},
+			ladder_diggable = {times={[1] = 2.5}, uses=0}
 		},
 		damage_groups = {fleshy=1},
 	}
@@ -329,4 +330,11 @@ minetest.register_tool("default:sword_diamond", {
 		},
 		damage_groups = {fleshy=8},
 	}
+})
+
+minetest.register_craftitem("default:apple_item", {
+	description = "Apple",
+	wield_image = "default_apple.png",
+	inventory_image = "default_apple.png",
+	on_use = minetest.item_eat(1),
 })

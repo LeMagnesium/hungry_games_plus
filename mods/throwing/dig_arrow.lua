@@ -72,10 +72,3 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 end
 
 minetest.register_entity("throwing:arrow_dig_entity", THROWING_ARROW_ENTITY)
-
-minetest.register_craft({
-	output = 'throwing:arrow_dig',
-	recipe = {
-		{'default:stick', 'default:stick', 'default:pick_steel'},
-	}
-})

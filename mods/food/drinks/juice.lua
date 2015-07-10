@@ -24,7 +24,7 @@ minetest.register_craft({
 	output = '"food:apple_juice" 4',
 	recipe = {
 		{"","",""},
-		{"","default:apple",""},
+		{"","default:apple_item",""},
 		{"","food:cup",""},
 	}
 })

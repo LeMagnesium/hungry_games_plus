@@ -101,16 +101,3 @@ minetest.register_craft( {
 		"vessels:drinking_glass",
 	},
 })
-
-minetest.register_craft({
-	type = "cooking",
-	output = "default:glass",
-	recipe = "vessels:glass_fragments",
-})
-
-minetest.register_craft( {
-	type = "cooking",
-	output = "default:steel_ingot",
-	recipe = "vessels:steel_bottle",
-})
-

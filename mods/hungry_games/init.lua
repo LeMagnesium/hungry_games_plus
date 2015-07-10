@@ -108,7 +108,7 @@ random_chests.setrefill("database", 5)
 --the last item is a group number/word which means if an item of that group number has already 
 --been spawned then don't add any more of those group types to the chest.
 --items
-chest_item('default:apple', 4, 5)
+chest_item('default:apple_item', 4, 5)
 chest_item('default:axe_wood', 10, 1, "axe")
 chest_item('default:axe_stone', 15, 1, "axe")
 chest_item('default:axe_steel', 20, 1, "axe")

@@ -77,31 +77,6 @@ function snow_stairs.register_stair(subname, recipeitem, groups, images, descrip
 				end
 			end
 	})
---[[
-	-- for replace ABM
-	minetest.register_node("snow:stair_" .. subname.."upside_down", {
-		replace_name = "snow:stair_" .. subname,
-		groups = {slabs_replace=1},
-	})
---]]
-	minetest.register_craft({
-		output = 'snow:stair_' .. subname .. ' 6',
-		recipe = {
-			{recipeitem, "", ""},
-			{recipeitem, recipeitem, ""},
-			{recipeitem, recipeitem, recipeitem},
-		},
-	})
-
-	-- Flipped recipe
-	minetest.register_craft({
-		output = 'snow:stair_' .. subname .. ' 6',
-		recipe = {
-			{"", "", recipeitem},
-			{"", recipeitem, recipeitem},
-			{recipeitem, recipeitem, recipeitem},
-		},
-	})
 end
 
 -- Node will be called snow:slab_<subname>
@@ -214,20 +189,6 @@ function snow_stairs.register_slab(subname, recipeitem, groups, images, descript
 				end
 			end
 
-	})
---[[
-	-- for replace ABM
-	minetest.register_node("snow:slab_" .. subname.."upside_down", {
-		replace_name = "snow:slab_"..subname,
-		groups = {slabs_replace=1},
-	})
---]]
-
-	minetest.register_craft({
-		output = 'snow:slab_' .. subname .. ' 6',
-		recipe = {
-			{recipeitem, recipeitem, recipeitem},
-		},
 	})
 
 

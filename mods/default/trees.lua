@@ -2,7 +2,7 @@ local c_air = minetest.get_content_id("air")
 local c_ignore = minetest.get_content_id("ignore")
 local c_tree = minetest.get_content_id("default:tree")
 local c_leaves = minetest.get_content_id("default:leaves")
-local c_apple = minetest.get_content_id("default:apple")
+local c_apple = minetest.get_content_id("default:apple_node")
 
 function default.grow_tree(data, a, pos, is_apple_tree, seed)
         --[[

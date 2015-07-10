@@ -24,7 +24,6 @@ Copyright (C) 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 Cisoun's WTFPL texture pack:
   default_chest_front.png
-  default_chest_lock.png
   default_chest_side.png
   default_chest_top.png
   default_stone_brick.png
@@ -191,3 +190,4 @@ Wuzzy and others (WTFPL)
   crosshair.png
   gui_hudbar.png
   gui_hudbar_selected.png
+  default_ladder_steel.png

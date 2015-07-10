@@ -8,6 +8,7 @@ if hungry_games.dig_mode == "none" then
 			full_punch_interval = 0.9,
 			max_drop_level = 0,
 			damage_groups = {fleshy=1},
+			groupcaps = { ladder_diggable = {times = {[1]=2.5}, uses = 0} },
 		}
 	})
 end

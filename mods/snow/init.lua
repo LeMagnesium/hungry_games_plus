@@ -51,7 +51,6 @@ http://github.com/Splizard/minetest-mod-snow/
 dofile(minetest.get_modpath("snow").."/src/abms.lua")
 dofile(minetest.get_modpath("snow").."/src/aliases.lua")
 dofile(minetest.get_modpath("snow").."/src/basic_stairs_slabs.lua")
-dofile(minetest.get_modpath("snow").."/src/crafting.lua")
 dofile(minetest.get_modpath("snow").."/src/snowball.lua")
 
 
