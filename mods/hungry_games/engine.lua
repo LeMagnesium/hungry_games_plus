@@ -82,6 +82,21 @@ local update_votebars = function()
 	end
 end
 
+function refill_chests(gsn)
+	minetest.chat_send_all("Refilling chests")
+	
+	if gsn ~= gameSequenceNumber then
+		return 
+	else
+		random_chests.refill()
+		if hungry_games.chest_refill_interval == -1 then
+			return
+		else
+			minetest.after(hungry_games.chest_refill_interval, refill_chests, gsn)
+		end
+	end	
+end
+
 local drop_player_items = function(playerName, clear) --If clear != nil, don't drop items, just clear inventory
 	if not playerName then
 		return
@@ -327,8 +342,9 @@ local start_game = function()
 			end
 		end, gameSequenceNumber)
 	end
-	print("filling chests...")
-	random_chests.refill()
+
+	refill_chests(gameSequenceNumber)
+	
 	--Find out how many spots there are to spawn
 	local nspots = get_spots()
 	local diff =  nspots-table.getn(registrants)

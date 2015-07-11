@@ -4,6 +4,7 @@
 	Feilds Marked with [SAFE] are safe to edit if you already have worlds generated.
 ]]--
 dofile(minetest.get_modpath("hungry_games").."/engine.lua")
+dofile(minetest.get_modpath("hungry_games").."/random_chests.lua")
 
 
 -----------------------------------
@@ -31,7 +32,7 @@ glass_arena.replace({
 }) 
 
 -----------------------------------
------Hungry Games configuration----
+-----Main Engine Configuration (engine.lua)----
 hungry_games = {}
 
 --Set countdown (in seconds) till players can leave their spawns.
@@ -43,6 +44,9 @@ hungry_games.grace_period = 90
 --Set what happens when a player dies during a match.
 --Possible values are: "spectate" or "lobby"
 hungry_games.death_mode = "lobby"
+
+--Set the interval at which chests are refilled during each match (seconds), set to -1 to only fill chests once at the beginning of the match
+hungry_games.chest_refill_interval = 150
 
 --Percentage of players that must have voted (/vote) for the match to start (0 is 0%, 0.5 is 50%, 1 is 100%) must be <1 and >0
 hungry_games.vote_percent = 0.5
@@ -73,8 +77,7 @@ spawning.register_spawn("lobby",{
 })
 
 -----------------------------------
---------Chest configuration--------
-local chest_item = random_chests.register_item
+--------Random Chests Configuration (random_chests.lua)--------
 
 --Enable chests to spawn in the world when generated.
 --Pass false if you want to hide your own chests in the world in creative.
@@ -89,25 +92,15 @@ random_chests.set_boundary(400)
 --Rarity is how many chests per chunk.
 random_chests.set_rarity(3)
 
---Set Chest Refill.
---The refill rate should not be set too low to reduce lag
---Uncomment one of the following...
-
-----Can be set as a database:
-----This will refill chests when a match is started, it processes 5 chests per second (so will take a while to fill on a large map)
-random_chests.setrefill("database", 5)
-
-----or set as an abm: [SAFE]
---random_chests.setrefill("abm", 12000)
-
-----or as nodetimers: (refill rate is in seconds)
---random_chests.setrefill("nodetimer", 3600)
+--Set speed at which chests are refilled (chests per second)
+random_chests.setrefillspeed(20)
 
 --Register a new item that can be spawned in random chests. [SAFE]
 --eg chest_item('default:torch', 4, 6) #has a 1 in 4 chance of spawning up to 6 torches.
 --the last item is a group number/word which means if an item of that group number has already 
 --been spawned then don't add any more of those group types to the chest.
 --items
+local chest_item = random_chests.register_item
 chest_item('default:apple_item', 4, 5)
 chest_item('default:axe_wood', 10, 1, "axe")
 chest_item('default:axe_stone', 15, 1, "axe")

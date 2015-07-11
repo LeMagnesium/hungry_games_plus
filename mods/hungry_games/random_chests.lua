@@ -1,8 +1,6 @@
 local random_items = {}
 local chest_rarity = 3
 local chests_spawn = true
-local chests_abm = false
-local chests_nodetimer = false
 local chests_interval = nil
 local chests_boundary = false
 
@@ -47,11 +45,6 @@ local fill_chest = function(pos)
 	for _,itemstring in ipairs(invcontent) do
 		inv:add_item('main', itemstring)
 	end
-	--Restart nodetimer
-	if chests_nodetimer then
-		local timer = minetest.env:get_node_timer(pos)
-		timer:start(chests_interval)
-	end
 end
 
 --API defintions
@@ -81,9 +74,6 @@ end
 function random_chests.set_boundary(n)
 	chests_boundary = tonumber(n)/2
 end
-
---------------------------------------------
---Only works if refill is set to database
 
 --Load chests
 local input = io.open(filepath..".chests", "r")
@@ -148,58 +138,8 @@ function random_chests.save()
 	io.close(output)
 end
 
---------------------------------------------
-
---Refill chests
-function random_chests.setrefill(mode, interval)
-	if mode ~= "database" and interval < 100 then
-		print("random_chests: WARNING! You have made the chest refill rate very high!")
-	end
-	if mode == "abm" then
-		minetest.register_abm({
-			nodenames = {"default:chest"},
-			interval = interval,
-			chance = 1,
-			action = fill_chest,
-		})
-	elseif mode == "nodetimer" then
-		--Add nodetimer to chests.
-		chests_interval = interval
-		local chest = {}
-		for k,v in pairs(minetest.registered_nodes["default:chest"]) do
-			chest[k] = v
-		end
-		chest.on_timer = fill_chest
-		chest.on_construct = function(pos)
-			local timer = minetest.env:get_node_timer(pos)
-			timer:start(interval)
-			local meta = minetest.env:get_meta(pos)
-			meta:set_string("formspec", default.chest_formspec)
-			meta:set_string("infotext", "Chest")
-			local inv = meta:get_inventory()
-			inv:set_size("main", 8*4)
-		end
-		minetest.register_node(":default:chest", chest)
-	elseif mode == "database" then
-		chests_interval = interval
-		local chest = {}
-		for k,v in pairs(minetest.registered_nodes["default:chest"]) do
-			chest[k] = v
-		end
-		chest.on_construct = function(pos)
-			if not filling then
-				table.insert(chests,pos)
-				random_chests.save()
-			end
-			
-			local meta = minetest.env:get_meta(pos)
-			meta:set_string("formspec", default.chest_formspec)
-			meta:set_string("infotext", "Chest")
-			local inv = meta:get_inventory()
-			inv:set_size("main", 8*4)
-		end
-		minetest.register_node(":default:chest", chest)
-	end
+random_chests.setrefillspeed = function(interval)
+	chests_interval = interval
 end
 
 --Spawning function.
