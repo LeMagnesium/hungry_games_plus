@@ -82,7 +82,8 @@ local update_votebars = function()
 	end
 end
 
-function refill_chests(gsn)
+local refill_chests
+refill_chests = function(gsn)
 	minetest.chat_send_all("Refilling chests")
 	
 	if gsn ~= gameSequenceNumber then
