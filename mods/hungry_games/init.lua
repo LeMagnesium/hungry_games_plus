@@ -46,7 +46,7 @@ hungry_games.grace_period = 90
 hungry_games.death_mode = "lobby"
 
 --Set the interval at which chests are refilled during each match (seconds), set to -1 to only fill chests once at the beginning of the match
-hungry_games.chest_refill_interval = 150
+hungry_games.chest_refill_interval = 240
 
 --Percentage of players that must have voted (/vote) for the match to start (0 is 0%, 0.5 is 50%, 1 is 100%) must be <1 and >0
 hungry_games.vote_percent = 0.5
