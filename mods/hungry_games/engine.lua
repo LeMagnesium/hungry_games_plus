@@ -86,7 +86,7 @@ local refill_chests
 refill_chests = function(gsn)
 	minetest.chat_send_all("Refilling chests")
 	
-	if gsn ~= gameSequenceNumber then
+	if gsn ~= gameSequenceNumber or not ingame then
 		return 
 	else
 		random_chests.refill()
