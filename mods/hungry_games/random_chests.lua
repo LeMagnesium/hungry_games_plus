@@ -29,7 +29,7 @@ local fill_chest = function(pos)
 			end
 		end
 	end
-	local meta = minetest.env:get_meta(pos)
+	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	for _,itemstring in ipairs(invcontent) do
 		inv:add_item('main', itemstring)
@@ -107,15 +107,14 @@ end
 
 function random_chests.refill(i)
 	filling = true
-	local env = minetest.env
 	if i == nil then i = 1 end
 	local s = i
 	while i <= table.getn(chests) do
 		if chests[i] then
-			local n = env:get_node(chests[i]).name
+			local n = minetest.get_node(chests[i]).name
 			if (not n:match("default:chest")) and n ~= "ignore" then
 				print("chest missing! found:")
-				print(env:get_node(chests[i]).name)
+				print(minetest.get_node(chests[i]).name)
 				print("instead")
 				table.remove(chests,i)
 			else
@@ -152,22 +151,22 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			for i=1, chest_rarity do
 				local pos = {x=math.random(minp.x,maxp.x),z=math.random(minp.z,maxp.z), y=minp.y}
 				if chests_boundary == 0 or CheckCollision(pos.x,pos.z,1,1, -chests_boundary,-chests_boundary,chests_boundary*2,chests_boundary*2) then
-					local env = minetest.env
 					 -- Find ground level (0...15)
 					local ground = nil
 					for y=maxp.y,minp.y+1,-1 do
-						if env:get_node({x=pos.x,y=y,z=pos.z}).name ~= "air" and env:get_node({x=pos.x,y=y,z=pos.z}).name ~= "default:water_source" and env:get_node({x=pos.x,y=y,z=pos.z}).name ~= "snow:snow" then
+						if minetest.get_node({x=pos.x,y=y,z=pos.z}).name ~= "air" and minetest.get_node({x=pos.x,y=y,z=pos.z}).name ~= "default:water_source" and minetest.get_node({x=pos.x,y=y,z=pos.z}).name ~= "snow:snow" then
 							ground = y
 							break
 						end
 					end
 	
 					if ground then
-						fill_chest({x=pos.x,y=ground+1,z=pos.z})
-						--print("spawn near "..pos.x.." "..pos.z)
+						table.insert(chests, {x=pos.x,y=ground+1,z=pos.z})
+						minetest.set_node({x=pos.x,y=ground+1,z=pos.z}, {name="default:chest"})
 					end
 				end
 			end	
 		end
 	end
+	random_chests.save()
 end)
