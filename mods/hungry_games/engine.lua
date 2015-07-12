@@ -52,18 +52,23 @@ local unset_timer = function()
 end
 
 local refill_chests
-refill_chests = function(gsn) --Refills all chests and continues to do so every hungry_games.chest_refill_interval seconds until the game stops 	
+refill_chests = function(args) --When called with just a gameSequenceNumber, starts a countdown to chest refill, refills chests after hungry_games.chest_refill_interval, and then starts another countdown. Does NOT refill chests when called initially
+	local gsn = args[1]	
+	local refill = args[2] --Flag: if true, then refill chests and start countdown to next refill, if false, just start countdown to next refill
 	if gsn ~= gameSequenceNumber or not ingame then
 		return 
 	else
-		random_chests.refill()
-		if hungry_games.chest_refill_interval == -1 then
+		if refill then 
+			minetest.chat_send_all("Refilling chests")
+			random_chests.refill() 
+		end
+
+		if hungry_games.chest_refill_interval == -1 then --If chest refilling is disabled, just refill once
 			return
 		else
-			minetest.chat_send_all("Refilling chests")
 			unset_timer()
 			set_timer("chest_refill", hungry_games.chest_refill_interval)
-			minetest.after(hungry_games.chest_refill_interval, refill_chests, gsn)
+			minetest.after(hungry_games.chest_refill_interval, refill_chests, {gsn, true})
 		end
 	end	
 end
@@ -74,7 +79,7 @@ local end_grace = function(gsn)
 		minetest.chat_send_all("Grace period over!")
 		grace = false
 		unset_timer()
-		refill_chests(gameSequenceNumber)
+		refill_chests({gameSequenceNumber})
 		minetest.sound_play("hungry_games_grace_over")
 	end
 end
