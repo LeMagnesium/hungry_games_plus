@@ -353,6 +353,7 @@ local start_game = function()
 		end, gameSequenceNumber)
 	end
 	
+	random_chests.clear()
 	random_chests.refill()
 	
 	--Find out how many spots there are to spawn
