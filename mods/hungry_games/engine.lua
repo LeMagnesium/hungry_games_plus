@@ -71,7 +71,7 @@ end
 local end_grace = function(gsn)
 	if ingame and gsn == gameSequenceNumber then
 		minetest.setting_set("enable_pvp", "true")
-		minetest.chat_send_all("Grace peroid over!")
+		minetest.chat_send_all("Grace period over!")
 		grace = false
 		unset_timer()
 		refill_chests(gameSequenceNumber)
@@ -300,7 +300,7 @@ local start_game_now = function(input)
 			end, {player, spots_shuffled[i], gameSequenceNumber})
 		end
 	end
-	minetest.chat_send_all("The Hungry Games has begun!")
+	minetest.chat_send_all("The Hungry Games have begun!")
 	if hungry_games.grace_period > 0 then
 		if hungry_games.grace_period >= 60 then
 			minetest.chat_send_all("You have "..(dump(hungry_games.grace_period)/60).."min until grace period ends!")
