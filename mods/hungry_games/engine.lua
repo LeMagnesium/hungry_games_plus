@@ -51,12 +51,30 @@ local unset_timer = function()
 	update_timer_hud("")
 end
 
+local refill_chests
+refill_chests = function(gsn) --Refills all chests and continues to do so every hungry_games.chest_refill_interval seconds until the game stops 	
+	if gsn ~= gameSequenceNumber or not ingame then
+		return 
+	else
+		random_chests.refill()
+		if hungry_games.chest_refill_interval == -1 then
+			return
+		else
+			minetest.chat_send_all("Refilling chests")
+			unset_timer()
+			set_timer("chest_refill", hungry_games.chest_refill_interval)
+			minetest.after(hungry_games.chest_refill_interval, refill_chests, gsn)
+		end
+	end	
+end
+
 local end_grace = function(gsn)
 	if ingame and gsn == gameSequenceNumber then
 		minetest.setting_set("enable_pvp", "true")
 		minetest.chat_send_all("Grace peroid over!")
 		grace = false
 		unset_timer()
+		refill_chests(gameSequenceNumber)
 		minetest.sound_play("hungry_games_grace_over")
 	end
 end
@@ -80,22 +98,6 @@ local update_votebars = function()
 			hb.unhide_hudbar(players[i], "votes")
 		end
 	end
-end
-
-local refill_chests
-refill_chests = function(gsn)
-	minetest.chat_send_all("Refilling chests")
-	
-	if gsn ~= gameSequenceNumber or not ingame then
-		return 
-	else
-		random_chests.refill()
-		if hungry_games.chest_refill_interval == -1 then
-			return
-		else
-			minetest.after(hungry_games.chest_refill_interval, refill_chests, gsn)
-		end
-	end	
 end
 
 local drop_player_items = function(playerName, clear) --If clear != nil, don't drop items, just clear inventory
@@ -257,6 +259,8 @@ minetest.register_globalstep(function(dtime)
 					update_timer_hud(string.format("Next round in max. %ds.", math.ceil(timer)))
 				elseif timer_mode == "starting" then
 					update_timer_hud(string.format("Game starts in %ds.", math.ceil(timer)))
+				elseif timer_mode == "chest_refill" then
+					update_timer_hud(string.format("%ds to chest refill", math.ceil(timer)))
 				else
 					unset_timer()
 				end
@@ -343,8 +347,8 @@ local start_game = function()
 			end
 		end, gameSequenceNumber)
 	end
-
-	refill_chests(gameSequenceNumber)
+	
+	random_chests.refill()
 	
 	--Find out how many spots there are to spawn
 	local nspots = get_spots()
