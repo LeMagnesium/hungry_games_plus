@@ -5,7 +5,7 @@
 ]]--
 dofile(minetest.get_modpath("hungry_games").."/engine.lua")
 dofile(minetest.get_modpath("hungry_games").."/random_chests.lua")
-
+dofile(minetest.get_modpath("hungry_games").."/spawning.lua")
 
 -----------------------------------
 --------Arena configuration--------
@@ -63,7 +63,7 @@ hungry_games.vote_countdown = 120
 hungry_games.dig_mode = "none"
 
 -----------------------------------
---------Spawn configuration--------
+--------Spawning Configuration (spawning.lua)--------
 
 --Set spawn points. [SAFE]
 --NOTE: is overiden by hg_admin commands and save file.
