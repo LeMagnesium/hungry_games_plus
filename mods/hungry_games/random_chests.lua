@@ -64,6 +64,19 @@ function random_chests.set_boundary(n)
 	chests_boundary = tonumber(n)/2
 end
 
+--Override the on_construct callback of the node definition of default:chest so that the positions of placed chests are saved
+minetest.registered_nodes["default:chest"].on_construct = function(pos)
+	if not filling then
+		table.insert(chests,pos)
+		random_chests.save()
+	end
+	local meta = minetest.get_meta(pos)
+	meta:set_string("formspec", default.chest_formspec)
+	meta:set_string("infotext", "Chest")
+	local inv = meta:get_inventory()
+	inv:set_size("main", 8*4)
+end
+		
 --Load chests
 local input = io.open(filepath..".chests", "r")
 if input then
