@@ -3,7 +3,7 @@ Minetest 0.4 mod: farming
 
 License of source code:
 -----------------------
-Copyright (C) 2012-2013 PilzAdam
+Copyright (C) 2014 webdesigner97
 
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
@@ -28,24 +28,21 @@ Created by PilzAdam (License: WTFPL):
   farming_soil_wet_side.png
   farming_string.png
 
-Created by VanessaE (License: WTFPL):
+Created by BlockMen (License: CC BY 3.0):
+  farming_tool_diamondhoe.png
+  farming_tool_mesehoe.png
+  farming_tool_bronzehoe.png
+  farming_tool_steelhoe.png
+  farming_tool_stonehoe.png
+  farming_tool_woodhoe.png
+
+Created by MasterGollum (License: WTFPL):
+  farming_straw.png
+
+Created by Gambit (License: WTFPL):
+  farming_wheat.png
+  farming_wheat_*.png
+  farming_cotton_*.png
+  farming_flour.png
   farming_cotton_seed.png
   farming_wheat_seed.png
-  farming_flour.png
-  farming_wheat.png
-  farming_wheat_1.png
-  farming_wheat_2.png
-  farming_wheat_3.png
-  farming_wheat_4.png
-  farming_wheat_5.png
-  farming_wheat_5.png
-  farming_wheat_7.png
-  farming_wheat_8.png
-  farming_cotton_1.png
-  farming_cotton_2.png
-  farming_cotton_3.png
-  farming_cotton_4.png
-  farming_cotton_5.png
-  farming_cotton_6.png
-  farming_cotton_7.png
-  farming_cotton_8.png
