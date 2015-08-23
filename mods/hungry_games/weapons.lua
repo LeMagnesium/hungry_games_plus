@@ -1,4 +1,4 @@
-if hungry_games.dig_mode == "none" then
+if not hungry_games.allow_dig then
 	--Redefine hand.
 	minetest.register_item(":", {
 		type = "none",
@@ -11,6 +11,15 @@ if hungry_games.dig_mode == "none" then
 			groupcaps = { ladder_diggable = {times = {[1]=2.5}, uses = 0} },
 		}
 	})
+	
+	--Protect everything to ensure that no node is ever dug or placed by players who do not have hg_maker
+	minetest.is_protected = function(pos, name)
+		if minetest.check_player_privs(name, {hg_maker=true}) then
+			return false
+		else
+			return true
+		end
+	end
 end
 
 -- Picks
