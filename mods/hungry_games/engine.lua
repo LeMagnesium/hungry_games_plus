@@ -513,7 +513,11 @@ minetest.register_on_joinplayer(function(player)
 	privs.fly = nil
 	privs.interact = nil
 	minetest.set_player_privs(name, privs)
-	minetest.chat_send_player(name, "You are now spectating")
+	
+	if hungry_games.death_mode == "spectate" then
+		minetest.chat_send_player(name, "You are now spectating")
+	end
+
 	spawning.spawn(player, "lobby")
 	reset_player_state(player)
 	hb.init_hudbar(player, "votes", votes, needed_votes(), (maintenance_mode or ingame or starting_game or #minetest.get_connected_players() < 2))
