@@ -172,6 +172,7 @@ local stop_game = function()
 		minetest.after(0.1, function()
 			local name = player:get_player_name()
 		   	local privs = minetest.get_player_privs(name)
+			player:set_nametag_attributes({color = {a=255, r=255, g=255, b=255}})
 			privs.fast = nil
 			privs.fly = nil
 			privs.interact = nil
@@ -283,9 +284,10 @@ local start_game_now = function(input)
 		return false
 	end
 	for i,player in ipairs(contestants) do
-		local name = player:get_player_name()	
+		local name = player:get_player_name()
 		if minetest.get_player_by_name(name) then
 			currGame[name] = true
+			player:set_nametag_attributes({color = {a=255, r=0, g=255, b=0}})
 			local privs = minetest.get_player_privs(name)	
 			privs.fast = nil
 			privs.fly = nil
@@ -470,6 +472,7 @@ minetest.register_on_dieplayer(function(player)
 	count = count - 1
 	
 	if ingame and currGame[playerName] and count ~= 1 then
+		player:set_nametag_attributes({color = {a=255, r=255, g=0, b=0}})
 		minetest.chat_send_all(playerName .. " has died! Players left: " .. tostring(count))		
 	end	
 
@@ -513,7 +516,11 @@ minetest.register_on_joinplayer(function(player)
 	privs.fly = nil
 	privs.interact = nil
 	minetest.set_player_privs(name, privs)
-	
+
+	if ingame then
+		player:set_nametag_attributes({colors = {a=255, r=255, g=0, b=0}})
+	end
+
 	if hungry_games.death_mode == "spectate" then
 		minetest.chat_send_player(name, "You are now spectating")
 	end
