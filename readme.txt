@@ -1,17 +1,18 @@
- _    _                                 _____                           
-| |  | |                               / ____|                          
-| |__| |_   _ _ __   __ _ _ __ _   _  | |  __  __ _ _ __ ___   ___  ___ 
-|  __  | | | | '_ \ / _` | '__| | | | | | |_ |/ _` | '_ ` _ \ / _ \/ __|
-| |  | | |_| | | | | (_| | |  | |_| | | |__| | (_| | | | | | |  __/\__ \
-|_|  |_|\__,_|_| |_|\__, |_|   \__, |  \_____|\__,_|_| |_| |_|\___||___/
-                     __/ |      __/ |                                   
-                    |___/      |___/                                    
+ _    _                                 _____                                   
+| |  | |                               / ____|                              _   
+| |__| |_   _ _ __   __ _ _ __ _   _  | |  __  __ _ _ __ ___   ___  ___   _| |_ 
+|  __  | | | | '_ \ / _` | '__| | | | | | |_ |/ _` | '_ ` _ \ / _ \/ __| |_   _|
+| |  | | |_| | | | | (_| | |  | |_| | | |__| | (_| | | | | | |  __/\__ \   |_|  
+|_|  |_|\__,_|_| |_|\__, |_|   \__, |  \_____|\__,_|_| |_| |_|\___||___/        
+                     __/ |      __/ |                                           
+                    |___/      |___/                                            
 
-The Hungry Games (GunshipPenguin's fork)
+Hungry Games Plus
 
-by Splizard, forked by GunshipPenguin
+Originally created by Splizard as Hungry Games
+Forked by GunshipPenguin as Hungry Games Plus
 
-Github: https://github.com/GunshipPenguin/hungry_games
+Github: https://github.com/GunshipPenguin/hungry_games_plus
 
 INSTALL
 -------
@@ -19,7 +20,7 @@ Place this folder in your Minetest games folder.
 
 UNINSTALL
 ---------
-Simply delete the folder hungry_games from the games folder.
+Simply delete the folder hungry_games_plus from the games folder.
 
 GAMEPLAY
 --------
