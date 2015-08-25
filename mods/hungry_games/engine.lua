@@ -518,7 +518,7 @@ minetest.register_on_joinplayer(function(player)
 	minetest.set_player_privs(name, privs)
 
 	if ingame then
-		player:set_nametag_attributes({colors = {a=255, r=255, g=0, b=0}})
+		player:set_nametag_attributes({color = {a=255, r=255, g=0, b=0}})
 	end
 
 	if hungry_games.death_mode == "spectate" then
