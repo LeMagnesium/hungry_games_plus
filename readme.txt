@@ -42,7 +42,7 @@ or a drink quickly, otherwise you will die from starvation or dehydration.
 ATTENTION, SERVER ADMINS
 ------------------------
 When hosting a hungry games server please edit the hungry_games mod files for configuring
-the game, this is the Minetest/games/hungry_games/mods/hungry_games/init.lua file. The file is meant to document itself but if you need help understanding the configuration, just ask.
+the game, this is the Minetest/games/hungry_games_plus/mods/hungry_games/init.lua file. The file is meant to document itself but if you need help understanding the configuration, just ask.
 The Hungry Games should, however, already work well with the default settings.
 
 QUICK START GUIDE FOR SETTING UP A SERVER
