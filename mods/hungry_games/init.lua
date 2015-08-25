@@ -27,7 +27,6 @@ glass_arena.replace({
 	"default:cactus",
 	"default:leaves",
 	"default:tree",
-	"snow:snow",
 	"default:snow"
 }) 
 
@@ -99,7 +98,7 @@ random_chests.setrefillspeed(20)
 --been spawned then don't add any more of those group types to the chest.
 --items
 local chest_item = random_chests.register_item
-chest_item('default:apple_item', 4, 5)
+chest_item('default:apple', 4, 5)
 chest_item('default:axe_wood', 10, 1, "axe")
 chest_item('default:axe_stone', 15, 1, "axe")
 chest_item('default:axe_steel', 20, 1, "axe")
@@ -116,6 +115,9 @@ chest_item('food:bread_slice', 3, 1)
 chest_item('food:bun', 5, 1)
 chest_item('food:bread', 10, 1)
 chest_item('food:apple_juice', 6, 2)
+chest_item('food:strawberry', 6, 2)
+chest_item('food:raw_meat', 6, 2)
+chest_item('food:rainbow_juice', 30, 1)
 chest_item('food:cactus_juice', 8, 2, "odd")
 chest_item('survival_thirst:water_glass', 4, 2)
 chest_item('3d_armor:helmet_wood', 10, 1, "helmet")
