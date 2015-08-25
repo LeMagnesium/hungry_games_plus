@@ -20,8 +20,7 @@ local player_state = { };
 local known_foods = {
 
     -- Default game --
-    "default:apple_item",
-    "default:apple_node",
+    "default:apple",
 
     -- PilzAdam's farming[_plus] --
     "farming:bread",
