@@ -1,7 +1,7 @@
 --[[
-	This is the config mod for the hungry_games game.
-	You should edit this BEFORE generation of hungry_games worlds.
-	Feilds Marked with [SAFE] are safe to edit if you already have worlds generated.
+This is the main configuration file for the hungry_games_plus subgame.
+
+Fields marked with [SAFE] are safe to modify after world has been generated.
 ]]--
 dofile(minetest.get_modpath("hungry_games").."/engine.lua")
 dofile(minetest.get_modpath("hungry_games").."/random_chests.lua")
@@ -10,13 +10,13 @@ dofile(minetest.get_modpath("hungry_games").."/spawning.lua")
 -----------------------------------
 --------Arena configuration--------
 
---Set size of the arena.
+--Size of the arena.
 glass_arena.set_size(400)
 
---Set texture of the arena. [SAFE]
+--Texture of the arena wall. [SAFE]
 glass_arena.set_texture("default_glass.png") 
 
---Set which blocks to replace with wall (remove table brackets "{}" for all blocks).
+--Which blocks to replace with wall (remove table brackets "{}" for all blocks).
 glass_arena.replace({
 	"air",
 	"ignore",
@@ -30,40 +30,40 @@ glass_arena.replace({
 	"default:snow"
 }) 
 
------------------------------------
+-----------------------------------------------
 -----Main Engine Configuration (engine.lua)----
+
 hungry_games = {}
 
---Set countdown (in seconds) till players can leave their spawns.
+--Countdown (in seconds) during which players cannot leave their spawnpoint.
 hungry_games.countdown = 10
 
---Set grace period length in seconds (or 0 for no grace period)
+--Grace period length in seconds (0 for no grace period).
 hungry_games.grace_period = 90
 
---Set what happens when a player dies during a match.
---Possible values are: "spectate" or "lobby"
+--What happens when a player dies during a match. Possible values are: "spectate" or "lobby".
 hungry_games.death_mode = "lobby"
 
---Set the interval at which chests are refilled during each match (seconds), set to -1 to only fill chests once at the beginning of the match
+--Interval at which chests are refilled during each match (seconds), set to -1 to only fill chests once at the beginning of the match.
 hungry_games.chest_refill_interval = 240
 
---Percentage of players that must have voted (/vote) for the match to start (0 is 0%, 0.5 is 50%, 1 is 100%) must be <1 and >0
+--Percentage of players that must have voted (/vote) for the match to start (0 is 0%, 0.5 is 50%, 1 is 100%) must be <1 and >0.
 hungry_games.vote_percent = 0.5
 
---If the number of connected players is less than or equal to this, the vote to start must be unaimous
+--If the number of connected players is less than or equal to this, the vote to start must be unaimous.
 hungry_games.vote_unanimous = 5
 
---If the number of votes is greater than or equal to 1, a timer will start that will automatically initiate the match in this many seconds (nil to disable)
+--If the number of votes is greater than or equal to 2, a timer will start that will automatically initiate the match in this many seconds (nil to disable).
 hungry_games.vote_countdown = 120
 
---Specifies whether or not players are allowed to dig or not
+--Whether or not players are allowed to dig.
 hungry_games.allow_dig = false
 
------------------------------------
+-----------------------------------------------------
 --------Spawning Configuration (spawning.lua)--------
 
---Set spawn points. [SAFE]
---NOTE: is overiden by hg_admin commands and save file.
+--Lobby and spawn points. [SAFE]
+--NOTE: These are overridden by /hg set spawn & /hg set lobby.
 spawning.register_spawn("spawn",{
 	mode = "static", 
 	pos = {x=0,y=0,z=0},
@@ -73,30 +73,25 @@ spawning.register_spawn("lobby",{
 	pos = {x=0,y=0,z=0},
 })
 
------------------------------------
+---------------------------------------------------------------
 --------Random Chests Configuration (random_chests.lua)--------
 
---Enable chests to spawn in the world when generated.
---Pass false if you want to hide your own chests in the world in creative.
+--Whether or not to generate chests in the world. Pass false if you want to hide your own chests in the world.
 random_chests.enable()
 
---Set the boundary where chests are spawned
---Should be set to the same or smaller then the arena.
---Defaults to whole map.
+--The size of the area in which chests are spawned. Should be set to the same or smaller then the arena size.
 random_chests.set_boundary(400)
 
---Set Chest Rarity.
---Rarity is how many chests per chunk.
+--Chest Rarity (How many chests per chunk).
 random_chests.set_rarity(3)
 
---Set speed at which chests are refilled (chests per second)
+--The speed at which chests are refilled (chests per second).
 random_chests.setrefillspeed(20)
 
---Register a new item that can be spawned in random chests. [SAFE]
---eg chest_item('default:torch', 4, 6) #has a 1 in 4 chance of spawning up to 6 torches.
---the last item is a group number/word which means if an item of that group number has already 
+--One call to chest_item should be here for each item that you wish to spawn in a chest.
+--Example: chest_item('default:torch', 4, 6) means that upon each chest refill, there is a 1 in 4 chance of spawning up to 6 torches
+--The last argument is a group number/word which means if an item of that group number has already 
 --been spawned then don't add any more of those group types to the chest.
---items
 local chest_item = random_chests.register_item
 chest_item('default:apple', 4, 5)
 chest_item('default:axe_wood', 10, 1, "axe")
@@ -145,7 +140,7 @@ chest_item('shields:shield_steel', 30, 1, "shield")
 chest_item('shields:shield_bronze', 20, 1, "shield")
 chest_item('shields:shield_diamond', 50, 1, "shield")
 chest_item('shields:shield_mithril', 40, 1, "shield")
---crafting items
+--Crafting items
 chest_item('default:stick', 8, 10)
 chest_item('default:steel_ingot', 15, 3)
 chest_item('farming:string', 7, 3)
