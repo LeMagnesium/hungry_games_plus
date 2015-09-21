@@ -47,6 +47,18 @@ hungry_games.death_mode = "lobby"
 --Interval at which chests are refilled during each match (seconds), set to -1 to only fill chests once at the beginning of the match.
 hungry_games.chest_refill_interval = 240
 
+--Time (in seconds) after which all player inventories and chests will be cleared, chest refilling will stop (if enabled) and all players will receive the contents of hungry_games.sudden_death_items. -1 to disable.
+hungry_games.sudden_death_time = 900
+
+--Items which each player will receive upon the game going into sudden death. This is an array of minetest itemstrings.
+hungry_games.sudden_death_items = {
+	"default:sword_steel",
+	"default:apple 2"
+}
+
+--Time (in seconds) after which the game will automatically end in a draw. Must be enabled.
+hungry_games.hard_time_limit = 3600
+
 --Percentage of players that must have voted (/vote) for the match to start (0 is 0%, 0.5 is 50%, 1 is 100%) must be <1 and >0.
 hungry_games.vote_percent = 0.5
 

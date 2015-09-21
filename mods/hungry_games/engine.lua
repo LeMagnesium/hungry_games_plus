@@ -42,7 +42,15 @@ local update_timer_hud = function(text)
 	end
 end
 
-local set_timer = function(name, time)
+local set_timer = function(args)
+	local gsn = args[1]
+	local name = args[2]
+	local time = args[3]
+	
+	if gsn ~= gameSequenceNumber then
+		return
+	end
+	
 	timer_mode = name
 	timer = time
 	timer_updated = nil
@@ -53,49 +61,6 @@ local unset_timer = function()
 	timer_updated = nil
 	update_timer_hud("")
 end
-
---[[
-Refills chests.
-
-Arguments are passed in an array. 
-
-The First argument is a game sequence number.
-
-The Second argument is a flag. If true, then all chests will be refilled and 
-this function will be called though the use of minetest.after exactly 
-hungry_games.chest_refill_interval seconds in the future with the flag
-set to true. If false, no chests will be refilled upon the function being 
-called but the function will be called through the use of minetest.after 
-hungry_games.vote_interval seconds later with the flag set to true.
-
-The second argument is used by the end_grace function. It enables it to
-start a countdown to the chest refill after the grace period has finished
-without refilling the chests immediately. This is important as refilling 
-the chests at the end of the grace period would give players access to too
-many items as the chests are already filled at the start of the game.
-]]
-local refill_chests
-refill_chests = function(args)
-	local gsn = args[1]	
-	local refill = args[2] --Flag: if true, then refill chests and start countdown to next refill, if false, just start countdown to next refill
-	if gsn ~= gameSequenceNumber or not ingame then
-		return 
-	else
-		if refill then 
-			minetest.chat_send_all("Refilling chests")
-			random_chests.refill() 
-		end
-
-		if hungry_games.chest_refill_interval == -1 then --If chest refilling is disabled, just refill once
-			return
-		else
-			unset_timer()
-			set_timer("chest_refill", hungry_games.chest_refill_interval)
-			minetest.after(hungry_games.chest_refill_interval, refill_chests, {gsn, true})
-		end
-	end	
-end
-
 
 --[[
 Ends the grace period. 
@@ -109,8 +74,6 @@ local end_grace = function(gsn)
 		minetest.setting_set("enable_pvp", "true")
 		minetest.chat_send_all("Grace period over!")
 		grace = false
-		unset_timer()
-		refill_chests({gameSequenceNumber})
 		minetest.sound_play("hungry_games_grace_over")
 	end
 end
@@ -211,23 +174,42 @@ local drop_player_items = function(playerName, clear)
 	return
 end
 
+--[[ 
+Puts the game into sudden death.
+
+Informs all players of the sudden death via a chat message, empties all
+player inventories and chests and gives each player the contents of 
+hungry_games.sudden_death_items.
+]]
+local sudden_death = function(gsn)
+	if gsn ~= gameSequenceNumber then
+		return
+	else
+		minetest.chat_send_all("Sudden Death!")
+		for playerName,_ in pairs(currGame) do
+			drop_player_items(playerName, true)
+			local inv = minetest.get_player_by_name(playerName):get_inventory()
+			inv:set_list("main", hungry_games.sudden_death_items)
+		end
+		minetest.sound_play("hungry_games_sudden_death")
+	end
+end
+
 --[[
 Stops the game immediately.
 ]]
 local stop_game = function()
 	for _,player in ipairs(minetest.get_connected_players()) do
-		minetest.after(0.1, function()
-			local name = player:get_player_name()
-		   	local privs = minetest.get_player_privs(name)
-			player:set_nametag_attributes({color = {a=255, r=255, g=255, b=255}})
-			privs.fast = nil
-			privs.fly = nil
-			privs.interact = nil
-			minetest.set_player_privs(name, privs)
-			drop_player_items(name, true)
-			player:set_hp(20)
-			spawning.spawn(player, "lobby")
-		end)
+		local name = player:get_player_name()
+		local privs = minetest.get_player_privs(name)
+		player:set_nametag_attributes({color = {a=255, r=255, g=255, b=255}})
+		privs.fast = nil
+		privs.fly = nil
+		privs.interact = nil
+		minetest.set_player_privs(name, privs)
+		drop_player_items(name, true)
+		player:set_hp(20)
+		spawning.spawn(player, "lobby")
 	end
 	registrants = {}
 	currGame = {}
@@ -325,6 +307,8 @@ minetest.register_globalstep(function(dtime)
 					update_timer_hud(string.format("Game starts in %ds.", math.ceil(timer)))
 				elseif timer_mode == "chest_refill" then
 					update_timer_hud(string.format("%ds to chest refill", math.ceil(timer)))
+				elseif timer_mode == "sudden_death" then
+					update_timer_hud(string.format("%ds to sudden death", math.ceil(timer)))
 				else
 					unset_timer()
 				end
@@ -336,10 +320,46 @@ minetest.register_globalstep(function(dtime)
 end)
 
 --[[
+Refills all chests.
+
+Informs all players of the chest refill and then calls random_chests.refill.
+]]
+local refill_chests = function(gsn)
+	if gsn ~= gameSequenceNumber then
+		return
+	else
+		random_chests.refill()
+		minetest.chat_send_all("Chests have been refilled")
+	end
+end
+
+--[[
+Forces a draw.
+
+Informs all players of the draw and the players remaining ingame via a 
+chat message and calls stop_game.
+]]
+local force_draw = function(gsn)
+	if gsn ~= gameSequenceNumber or not ingame then
+		return
+	else
+		minetest.chat_send_all("The game has ended in a draw!")
+		local playersRemaining = ""
+		for playerName,_ in pairs(currGame) do
+			playersRemaining = playersRemaining .. playerName .. " "
+		end
+		minetest.chat_send_all("Players remaining in game were: " .. playersRemaining)
+	end
+	stop_game()
+	return
+end
+
+--[[
 Starts the grace period.
 
 Enables damage and sets a timer informing players of the time remaining 
-until the end of the grace period.
+until the end of the grace period. Also sets up chest refilling and 
+the sudden death (if set).
 
 Called when the countdown initiated by start_game is finished. 
 ]]
@@ -373,6 +393,31 @@ local start_game_now = function(input)
 			end, {player, spots_shuffled[i], gameSequenceNumber})
 		end
 	end
+	
+	--Set up chest refilling and sudden death
+	if hungry_games.chest_refill_interval > 0 then --Chest refilling enabled
+		local numRefills;
+		if hungry_games.sudden_death_time > 0 then
+			numRefills = (hungry_games.sudden_death_time / hungry_games.chest_refill_interval) - 1
+			minetest.after(hungry_games.grace_period + (hungry_games.chest_refill_interval*numRefills), set_timer, {gameSequenceNumber, "sudden_death", hungry_games.sudden_death_time - hungry_games.chest_refill_interval*numRefills})
+			minetest.after(hungry_games.grace_period + hungry_games.sudden_death_time, sudden_death, gameSequenceNumber)
+		else
+			numRefills = (hungry_games.hard_time_limit / hungry_games.chest_refill_interval) - 1
+		end
+		
+		for i=1,numRefills do
+			minetest.after(hungry_games.grace_period+hungry_games.chest_refill_interval*i, refill_chests, gameSequenceNumber)
+			minetest.after(hungry_games.grace_period+hungry_games.chest_refill_interval*(i-1), set_timer, {gameSequenceNumber, "chest_refill", hungry_games.chest_refill_interval})
+		end
+	else --Chest refilling disabled
+		if hungry_games.sudden_death_time > 0 then
+			minetest.after(hungry_games.grace_period, set_timer, {gameSequenceNumber, "sudden_death", hungry_games.sudden_death_time})
+			minetest.after(hungry_games.grace_period + hungry_games.sudden_death_time, sudden_death, gameSequenceNumber)
+		end
+	end
+	assert(type(hungry_games.hard_time_limit) == "number" and hungry_games.hard_time_limit > 0, "Invalid value for hungry_games.hard_time_limit. Must be a number > 0")
+	minetest.after(hungry_games.hard_time_limit, force_draw, gameSequenceNumber)
+	
 	minetest.chat_send_all("The Hungry Games have begun!")
 	if hungry_games.grace_period > 0 then
 		if hungry_games.grace_period >= 60 then
@@ -381,7 +426,7 @@ local start_game_now = function(input)
 			minetest.chat_send_all("You have "..dump(hungry_games.grace_period).."s until grace period ends!")
 		end
 		grace = true
-		set_timer("grace", hungry_games.grace_period)
+		set_timer({gameSequenceNumber, "grace", hungry_games.grace_period})
 		minetest.setting_set("enable_pvp", "false")
 		minetest.after(hungry_games.grace_period, end_grace, gameSequenceNumber)
 	else
@@ -490,7 +535,7 @@ local start_game = function()
 	end
 	minetest.setting_set("enable_damage", "false")
 	if hungry_games.countdown > 0 then
-		set_timer("starting", hungry_games.countdown)
+		set_timer({gameSequenceNumber, "starting", hungry_games.countdown})
 		for i=1, (hungry_games.countdown-1) do
 			minetest.after(i, function(list)
 				local contestants = list[1]
@@ -840,7 +885,7 @@ minetest.register_chatcommand("vote", {
 			if votes > 1 and force_init_warning == false and cv == false and hungry_games.vote_countdown ~= nil then
 				minetest.chat_send_all("The match will automatically be initiated in " .. math.floor(hungry_games.vote_countdown/60) .. " minutes " .. math.fmod(hungry_games.vote_countdown, 60) .. " seconds.")
 				force_init_warning = true
-				set_timer("vote", hungry_games.vote_countdown)
+				set_timer({gameSequenceNumber, "vote", hungry_games.vote_countdown})
 				voteSequenceNumber = voteSequenceNumber + 1
 				minetest.after(hungry_games.vote_countdown, function (gsn, vsn)
 					if not (starting_game or ingame and gsn == gameSequenceNumber) and timer_mode == "vote" and voteSequenceNumber == vsn then
