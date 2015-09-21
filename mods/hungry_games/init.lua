@@ -41,8 +41,8 @@ hungry_games.countdown = 10
 --Grace period length in seconds (0 for no grace period).
 hungry_games.grace_period = 90
 
---What happens when a player dies during a match. Possible values are: "spectate" or "lobby".
-hungry_games.death_mode = "lobby"
+--If true, grant players fly and fast after they die in a match so that they can "spectate" the match, they will retain those privs until the end of the match. If false, just spawn them in the lobby without any additional privs.
+hungry_games.spectate_after_death = false
 
 --Interval at which chests are refilled during each match (seconds), set to -1 to only fill chests once at the beginning of the match.
 hungry_games.chest_refill_interval = 240

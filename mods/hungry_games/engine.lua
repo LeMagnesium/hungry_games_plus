@@ -585,7 +585,7 @@ local check_votes = function()
 	return false
 end
 
---[[
+--[[dieplayer
 Handles everything when a player's dies.
 
 Drops the player's items, if a game is currently underway, spawns player
@@ -615,7 +615,7 @@ minetest.register_on_dieplayer(function(player)
 		minetest.sound_play("hungry_games_death", {pos = pos})
 	end
 	if privs.interact or privs.fly then
-   		if privs.interact and (hungry_games.death_mode == "spectate") then 
+   		if privs.interact and hungry_games.spectate_after_death then 
 		   	privs.fast = true
 			privs.fly = true
 			privs.interact = nil
@@ -629,9 +629,9 @@ minetest.register_on_respawnplayer(function(player)
 	player:set_hp(20)
 	local name = player:get_player_name()
    	local privs = minetest.get_player_privs(name)
-   	if (privs.interact or privs.fly) and (hungry_games.death_mode == "spectate") then
+   	if hungry_games.spectate_after_death then
 		spawning.spawn(player, "spawn")
-	elseif (hungry_games.death_mode == "lobby") then
+	else
 		spawning.spawn(player, "lobby")
 	end
 	return true
@@ -649,10 +649,9 @@ minetest.register_on_joinplayer(function(player)
 
 	if ingame then
 		player:set_nametag_attributes({color = {a=255, r=255, g=0, b=0}})
-	end
-
-	if hungry_games.death_mode == "spectate" then
-		minetest.chat_send_player(name, "You are now spectating")
+		if hungry_games.spectate_after_death then
+			minetest.chat_send_player(name, "You are now spectating")
+		end
 	end
 
 	spawning.spawn(player, "lobby")
