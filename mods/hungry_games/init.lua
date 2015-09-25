@@ -145,7 +145,4 @@ chest_item('food:cup', 5, 2)
 chest_item('hungry_games:planks', 5, 3)
 
 --END OF CONFIG OPTIONS
-if hungry_games.dig_mode ~= "normal" then
-	dofile(minetest.get_modpath("hungry_games").."/weapons.lua")
-end
-
+dofile(minetest.get_modpath("hungry_games").."/setup.lua")
