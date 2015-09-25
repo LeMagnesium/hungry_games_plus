@@ -6,29 +6,13 @@ Fields marked with [SAFE] are safe to modify after world has been generated.
 dofile(minetest.get_modpath("hungry_games").."/engine.lua")
 dofile(minetest.get_modpath("hungry_games").."/random_chests.lua")
 dofile(minetest.get_modpath("hungry_games").."/spawning.lua")
+dofile(minetest.get_modpath("hungry_games").."/arena.lua")
 
------------------------------------
---------Arena configuration--------
+------------------------------------------------
+--------Arena configuration (arena.lua) --------
 
---Size of the arena.
-glass_arena.set_size(400)
-
---Texture of the arena wall. [SAFE]
-glass_arena.set_texture("default_glass.png") 
-
---Which blocks to replace with wall (remove table brackets "{}" for all blocks).
-glass_arena.replace({
-	"air",
-	"ignore",
-	"default:water_source",
-	"default:water_flowing",
-	"default:lava_source",
-	"default:lava_flowing",
-	"default:cactus",
-	"default:leaves",
-	"default:tree",
-	"default:snow"
-}) 
+--How large the map gets before it stops generating. The map will be a cube centered around (0,0,0) with this number as its x y and z dimension.
+arena.size = 400
 
 -----------------------------------------------
 -----Main Engine Configuration (engine.lua)----
