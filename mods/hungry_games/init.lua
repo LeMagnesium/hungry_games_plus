@@ -140,9 +140,7 @@ chest_item('shields:shield_mithril', 40, 1, "shield")
 chest_item('default:stick', 8, 10)
 chest_item('default:steel_ingot', 15, 3)
 chest_item('farming:string', 7, 3)
-chest_item('hungry_games:stones', 6, 3)
 chest_item('food:cup', 5, 2)
-chest_item('hungry_games:planks', 5, 3)
 
 --END OF CONFIG OPTIONS
 dofile(minetest.get_modpath("hungry_games").."/setup.lua")
