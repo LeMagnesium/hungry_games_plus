@@ -86,24 +86,6 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 		})
 	end
 
-	minetest.register_craft({
-		output = 'stairs:stair_' .. subname .. ' 6',
-		recipe = {
-			{recipeitem, "", ""},
-			{recipeitem, recipeitem, ""},
-			{recipeitem, recipeitem, recipeitem},
-		},
-	})
-
-	-- Flipped recipe for the silly minecrafters
-	minetest.register_craft({
-		output = 'stairs:stair_' .. subname .. ' 6',
-		recipe = {
-			{"", "", recipeitem},
-			{"", recipeitem, recipeitem},
-			{recipeitem, recipeitem, recipeitem},
-		},
-	})
 end
 
 
@@ -215,13 +197,6 @@ function stairs.register_slab(subname, recipeitem, groups, images, description, 
 			groups = {slabs_replace = 1},
 		})
 	end
-
-	minetest.register_craft({
-		output = 'stairs:slab_' .. subname .. ' 6',
-		recipe = {
-			{recipeitem, recipeitem, recipeitem},
-		},
-	})
 end
 
 
@@ -363,13 +338,6 @@ stairs.register_stair_and_slab("brick", "default:brick",
 		"Brick Stair",
 		"Brick Slab",
 		default.node_sound_stone_defaults())
-
-stairs.register_stair_and_slab("straw", "farming:straw",
-		{snappy = 3, flammable = 4},
-		{"farming_straw.png"},
-		"Straw Stair",
-		"Straw Slab",
-		default.node_sound_leaves_defaults())
 
 stairs.register_stair_and_slab("steelblock", "default:steelblock",
 		{cracky = 1, level = 2},

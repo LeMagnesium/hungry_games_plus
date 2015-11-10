@@ -108,6 +108,8 @@ local function override_on_use ( def )
     local on_use = def.on_use;
     def.on_use = function ( itemstack, user, pointed_thing )
         local state = survival.get_player_state(user:get_player_name(), "thirst");
+        state.count = 0;
+	state.thirsty = false;
         minetest.sound_play({ name="survival_thirst_drink" }, {
             pos = user:getpos();
             max_hear_distance = 16;
@@ -171,8 +173,8 @@ survival.register_state("thirst", {
         if (player:get_hp() > 0) then
        		local name = player:get_player_name();
 		    local privs = minetest.get_player_privs(name)
-	        if privs.interact then
-	        
+	        if privs.ingame then
+
 		        state.count = state.count + dtime;
 		        
 		        if (state.thirsty and (state.count >= PASS_OUT_TIME)) then

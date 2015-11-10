@@ -3,6 +3,10 @@ This is the main configuration file for the hungry_games_plus subgame.
 
 Fields marked with [SAFE] are safe to modify after world has been generated.
 ]]--
+
+--load ranked
+ranked = {}
+dofile(minetest.get_modpath("hungry_games").."/ranked.lua")
 dofile(minetest.get_modpath("hungry_games").."/engine.lua")
 dofile(minetest.get_modpath("hungry_games").."/random_chests.lua")
 dofile(minetest.get_modpath("hungry_games").."/spawning.lua")
@@ -13,6 +17,24 @@ dofile(minetest.get_modpath("hungry_games").."/arena.lua")
 
 --How large the map gets before it stops generating. The map will be a cube centered around (0,0,0) with this number as its x y and z dimension.
 arena.size = 400
+glass_arena.set_size(400)
+
+--Texture of the arena wall. [SAFE]
+glass_arena.set_texture("default_glass.png") 
+
+--Which blocks to replace with wall (remove table brackets "{}" for all blocks).
+glass_arena.replace({
+	"air",
+	"ignore",
+	"default:water_source",
+	"default:water_flowing",
+	"default:lava_source",
+	"default:lava_flowing",
+	"default:cactus",
+	"default:leaves",
+	"default:tree",
+	"default:snow"
+})
 
 -----------------------------------------------
 -----Main Engine Configuration (engine.lua)----
@@ -23,7 +45,7 @@ hungry_games = {}
 hungry_games.countdown = 10
 
 --Grace period length in seconds (0 for no grace period).
-hungry_games.grace_period = 90
+hungry_games.grace_period = 75
 
 --If true, grant players fly and fast after they die in a match so that they can "spectate" the match, they will retain those privs until the end of the match. If false, just spawn them in the lobby without any additional privs.
 hungry_games.spectate_after_death = false
@@ -79,7 +101,7 @@ random_chests.enable()
 random_chests.set_boundary(400)
 
 --Chest Rarity (How many chests per chunk).
-random_chests.set_rarity(3)
+random_chests.set_rarity(4)
 
 --The speed at which chests are refilled (chests per second).
 random_chests.setrefillspeed(20)
@@ -90,25 +112,21 @@ random_chests.setrefillspeed(20)
 --been spawned then don't add any more of those group types to the chest.
 local chest_item = random_chests.register_item
 chest_item('default:apple', 4, 5)
-chest_item('default:axe_wood', 10, 1, "axe")
-chest_item('default:axe_stone', 15, 1, "axe")
-chest_item('default:axe_steel', 20, 1, "axe")
 chest_item('throwing:arrow', 4, 15)
-chest_item('throwing:arrow_fire', 12, 6)
+chest_item('throwing:arrow_fire', 12, 8)
 chest_item('throwing:bow_wood', 5, 1, "bow")
 chest_item('throwing:bow_stone', 10, 1, "bow")
 chest_item('throwing:bow_steel', 15, 1, "bow")
-chest_item('default:sword_wood', 10, 1, "sword")
-chest_item('default:sword_stone', 15, 1, "sword")
-chest_item('default:sword_steel', 20, 1, "sword")
-chest_item('default:sword_diamond', 40, 1, "sword")
-chest_item('food:bread_slice', 3, 1)
+chest_item('default:sword_wood', 5, 1, "sword")
+chest_item('default:sword_stone', 8, 1, "sword")
+chest_item('default:sword_steel', 11, 1, "sword")
+chest_item('default:sword_bronze', 14, 1, "sword")
+chest_item('default:sword_mese', 17, 1, "sword")
+chest_item('default:sword_diamond', 20, 1, "sword")
+chest_item('food:bread', 3, 1)
 chest_item('food:bun', 5, 1)
 chest_item('food:bread', 10, 1)
 chest_item('food:apple_juice', 6, 2)
-chest_item('food:strawberry', 6, 2)
-chest_item('food:meat_raw', 6, 2)
-chest_item('food:rainbow_juice', 30, 1)
 chest_item('food:cactus_juice', 8, 2, "odd")
 chest_item('survival_thirst:water_glass', 4, 2)
 chest_item('3d_armor:helmet_wood', 10, 1, "helmet")
@@ -139,8 +157,12 @@ chest_item('shields:shield_mithril', 40, 1, "shield")
 --Crafting items
 chest_item('default:stick', 8, 10)
 chest_item('default:steel_ingot', 15, 3)
-chest_item('farming:string', 7, 3)
-chest_item('food:cup', 5, 2)
+chest_item('throwing:string', 7, 3)
+chest_item('hungry_games:stones', 6, 3)
+chest_item('hungry_games:planks', 5, 3)
 
 --END OF CONFIG OPTIONS
-dofile(minetest.get_modpath("hungry_games").."/setup.lua")
+if hungry_games.dig_mode ~= "normal" then
+	dofile(minetest.get_modpath("hungry_games").."/weapons.lua")
+end
+

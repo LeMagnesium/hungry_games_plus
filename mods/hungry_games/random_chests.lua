@@ -31,6 +31,7 @@ local fill_chest = function(pos)
 	end
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
+	inv:set_list("main", {})
 	for _,itemstring in ipairs(invcontent) do
 		inv:add_item('main', itemstring)
 	end
@@ -130,10 +131,12 @@ function random_chests.refill(i)
 			else
 				fill_chest(chests[i])
 			end
+			--[[ MFF crabman(2/10/2015)  disable timer refill
 			if i > (s+(chests_interval/2)) then
-				minetest.after(0.5,random_chests.refill, i)
+				minetest.after(0.5,random_chests.refill, i+1)
 				return
 			end
+			--]]
 		end
 		i = i + 1
 	end

@@ -30,11 +30,11 @@ minetest.register_alias("flowers:flower_dandelion_white", "flowers:dandelion_whi
 
 local function add_simple_flower(name, desc, box, f_groups)
 	-- Common flowers' groups
-	f_groups.snappy = 3
 	f_groups.flammable = 2
 	f_groups.flower = 1
 	f_groups.flora = 1
 	f_groups.attached_node = 1
+	f_groups.unbreakable = 1
 
 	minetest.register_node("flowers:" .. name, {
 		description = desc,
@@ -69,7 +69,7 @@ for _,item in pairs(flowers.datas) do
 end
 
 
--- Flower spread
+--[[ Flower spread
 
 minetest.register_abm({
 	nodenames = {"group:flora"},
@@ -115,7 +115,7 @@ minetest.register_abm({
 			end
 		end
 	end,
-})
+})]]
 
 
 --
@@ -213,7 +213,7 @@ for _, m in pairs(mushrooms_datas) do
 end
 
 
--- Register growing ABM
+--[[ Register growing ABM
 
 minetest.register_abm({
 	nodenames = {"flowers:mushroom_spores_brown", "flowers:mushroom_spores_red"},
@@ -234,4 +234,4 @@ minetest.register_abm({
 			end
 		end
 	end
-})
+})]]

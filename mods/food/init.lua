@@ -10,87 +10,38 @@
 -- [regis-food] Cigerette (-4)
 -- =====================================
 
-print ("Food: Loading mainframe: [Master]")
+minetest.register_alias("farming:bread", "food:bread")
+minetest.register_alias("farming:bread_slice", "food:bread_slice")
 
-----------------------Load Files-----------------------------
-dofile(minetest.get_modpath("food").."/support.lua")
-
-dofile(minetest.get_modpath("food").."/dairy.lua")
-dofile(minetest.get_modpath("food").."/food/meats.lua")
-dofile(minetest.get_modpath("food").."/food/sandwich.lua")
-dofile(minetest.get_modpath("food").."/food/baking.lua")
-dofile(minetest.get_modpath("food").."/food/soup.lua")
-
-dofile(minetest.get_modpath("food").."/snacks/crumbles.lua")
-dofile(minetest.get_modpath("food").."/snacks/cakes.lua")
-dofile(minetest.get_modpath("food").."/snacks/tarts.lua")
-
-dofile(minetest.get_modpath("food").."/drinks/juice.lua")
-dofile(minetest.get_modpath("food").."/drinks/hot.lua")
-
-
-
-----------------------------Cup------------------------------
-
-minetest.register_craftitem("food:mug",{
-	description = "Mug",
-	inventory_image = "food_mug.png",
+-- Bread from the farming mod
+minetest.register_craftitem("food:bread", {
+	description = "Bread",
+	inventory_image = "food_bread.png",
+	on_use = minetest.item_eat(4),
 })
 
-minetest.register_craftitem("food:clay_mug",{
-	description = "Clay Mug",
-	inventory_image = "food_clay_mug.png",
+minetest.register_craftitem("food:bread_slice", {
+	description = "Bread Slice",
+	inventory_image = "food_bread_slice.png",
+	on_use = minetest.item_eat(2),
 })
 
-minetest.register_craft({
-	output = '"food:clay_mug" 1',
-	recipe = {
-		{"default:clay_lump","","default:clay_lump"},
-		{"default:clay_lump","","default:clay_lump"},
-		{"default:clay_lump","default:clay_lump","default:clay_lump"},
-	}
+minetest.register_craftitem("food:bun", {
+	description = "Bun",
+	inventory_image = "food_bun.png",
+	on_use = minetest.item_eat(4),
+	groups={food=2},
 })
 
-minetest.register_craft({
-	type = "cooking",
-	output = "food:mug",
-	recipe = "food:clay_mug",
+--------------------------Apple Juice--------------------------
+minetest.register_craftitem("food:apple_juice", {
+	description = "Apple Juice",
+	inventory_image = "food_juice_apple.png",
+	on_use = minetest.item_eat(2)
 })
-
------------------------------Bowl-------------------------------
-
-minetest.register_craftitem("food:bowl",{
-	description = "Bowl",
-	inventory_image = "food_bowl.png",
+----------------------Cactus Juice----------------------------
+minetest.register_craftitem("food:cactus_juice", {
+	description = "Cactus Juice",
+	inventory_image = "food_juice_cactus.png",
+	on_use = minetest.item_eat(2),
 })
-
-
------------------------------Sugar------------------------------
-minetest.register_craftitem("food:sugar", {
-	description = "Sugar",
-	inventory_image = "food_sugar.png",
-})
-minetest.register_craft({
-	output = '"food:sugar" 20',
-	recipe = {
-		{'"default:papyrus"'},
-
-	}
-})
-
-----------------------------Cigerete----------------------------
-minetest.register_craftitem("food:cigarette", {
-	description = "Cigarette",
-	inventory_image = "food_cigar.png",
-	on_use = minetest.item_eat(-4),
-})
-
-minetest.register_craft({
-	output = '"food:cigarette" 1',
-	recipe = {
-		{'"default:dry_shrub"','"default:dry_shrub"','"default:dry_shrub"'},
-
-	}
-})
-
-print("Food: Mainframe loaded")

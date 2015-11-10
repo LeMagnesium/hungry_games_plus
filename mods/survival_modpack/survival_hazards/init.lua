@@ -18,7 +18,7 @@ minetest.register_tool("survival_hazards:suit", {
     inventory_image = "survival_hazards_suit.png";
 });
 
-minetest.register_craft({
+--[[minetest.register_craft({
     output = 'survival_hazards:suit';
     recipe = {
         { '', 'bucket:bucket_empty', '' },
@@ -34,7 +34,7 @@ minetest.register_craft({
         'survival_hazards:suit',
         'default:mese_crystal',
     };
-});
+});]]
 
 local dtime_count = 0;
 

@@ -354,14 +354,14 @@ doors.register_door("doors:door_wood", {
 	sunlight = false,
 })
 
-minetest.register_craft({
+--[[minetest.register_craft({
 	output = "doors:door_wood",
 	recipe = {
 		{"group:wood", "group:wood"},
 		{"group:wood", "group:wood"},
 		{"group:wood", "group:wood"}
 	}
-})
+})]]
 
 doors.register_door("doors:door_steel", {
 	description = "Steel Door",
@@ -374,14 +374,14 @@ doors.register_door("doors:door_steel", {
 	sunlight = false,
 })
 
-minetest.register_craft({
+--[[minetest.register_craft({
 	output = "doors:door_steel",
 	recipe = {
 		{"default:steel_ingot", "default:steel_ingot"},
 		{"default:steel_ingot", "default:steel_ingot"},
 		{"default:steel_ingot", "default:steel_ingot"}
 	}
-})
+})]]
 
 doors.register_door("doors:door_glass", {
 	description = "Glass Door",
@@ -393,14 +393,14 @@ doors.register_door("doors:door_glass", {
 	sunlight = true,
 })
 
-minetest.register_craft({
+--[[minetest.register_craft({
 	output = "doors:door_glass",
 	recipe = {
 		{"default:glass", "default:glass"},
 		{"default:glass", "default:glass"},
 		{"default:glass", "default:glass"}
 	}
-})
+})]]
 
 doors.register_door("doors:door_obsidian_glass", {
 	description = "Obsidian Glass Door",
@@ -412,14 +412,14 @@ doors.register_door("doors:door_obsidian_glass", {
 	sunlight = true,
 })
 
-minetest.register_craft({
+--[[minetest.register_craft({
 	output = "doors:door_obsidian_glass",
 	recipe = {
 		{"default:obsidian_glass", "default:obsidian_glass"},
 		{"default:obsidian_glass", "default:obsidian_glass"},
 		{"default:obsidian_glass", "default:obsidian_glass"}
 	}
-})
+})]]
 
 
 ----trapdoor----
@@ -492,11 +492,11 @@ doors.register_trapdoor("doors:trapdoor", {
 	sound_close = "doors_door_close"
 })
 
-minetest.register_craft({
+--[[minetest.register_craft({
 	output = 'doors:trapdoor 2',
 	recipe = {
 		{'group:wood', 'group:wood', 'group:wood'},
 		{'group:wood', 'group:wood', 'group:wood'},
 		{'', '', ''},
 	}
-})
+})]]

@@ -50,8 +50,8 @@ survival.register_state = function ( name, def )
     survival.registered_states[#survival.registered_states + 1] = def;
 end
 
-survival.enable = function()
-    for _,player in pairs(minetest.get_connected_players()) do
+survival.enable = function(players)
+    for _,player in pairs(players) do
         local inv = player:get_inventory();
         local plname = player:get_player_name();
         for i, def in ipairs(survival.registered_states) do
@@ -86,6 +86,25 @@ survival.disable = function()
     survival.active = false
 end
 
+
+survival.player_hide_hudbar = function(plname)
+	local player = minetest.get_player_by_name(plname)
+	if not player then return end
+	for i, def in ipairs(survival.registered_states) do
+		if (def.enabled) then
+			local name = def.name;
+			survival.reset_player_state(plname, name);
+			local state = player_states[plname][name];
+			if hudbar_active[plname] then
+				hb.change_hudbar(player, name, math.floor(def.get_scaled_value(state)));
+				hb.hide_hudbar(player, name);
+			end
+		end
+	end
+end
+
+
+
 survival.get_player_state = function ( name, stname )
     if (name and stname and player_states[name]) then
         return player_states[name][stname];
@@ -104,7 +123,7 @@ survival.set_player_state = function ( name, stname, state )
 end
 
 survival.reset_player_state = function ( name, stname )
-    if (name and stname and survival.registered_states[stname]) then
+    if (name and stname and survival.registered_states[stname] and player_states[name]) then
         player_states[name][stname] = survival.registered_states[stname].get_default(player_states[name][stname].hudid);
     end
 end

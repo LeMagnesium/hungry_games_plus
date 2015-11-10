@@ -75,14 +75,14 @@ minetest.register_node("vessels:shelf", {
 	end,
 })
 
-minetest.register_craft({
+--[[minetest.register_craft({
 	output = 'vessels:shelf',
 	recipe = {
 		{'group:wood', 'group:wood', 'group:wood'},
 		{'group:vessel', 'group:vessel', 'group:vessel'},
 		{'group:wood', 'group:wood', 'group:wood'},
 	}
-})
+})]]
 
 minetest.register_node("vessels:glass_bottle", {
 	description = "Glass Bottle (empty)",
@@ -101,14 +101,14 @@ minetest.register_node("vessels:glass_bottle", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-minetest.register_craft( {
+--[[minetest.register_craft( {
 	output = "vessels:glass_bottle 10",
 	recipe = {
 		{ "default:glass", "", "default:glass" },
 		{ "default:glass", "", "default:glass" },
 		{ "", "default:glass", "" }
 	}
-})
+})]]
 
 minetest.register_node("vessels:drinking_glass", {
 	description = "Drinking Glass (empty)",
@@ -127,14 +127,14 @@ minetest.register_node("vessels:drinking_glass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-minetest.register_craft( {
+--[[minetest.register_craft( {
 	output = "vessels:drinking_glass 14",
 	recipe = {
 		{ "default:glass", "", "default:glass" },
 		{ "default:glass", "", "default:glass" },
 		{ "default:glass", "default:glass", "default:glass" }
 	}
-})
+})]]
 
 minetest.register_node("vessels:steel_bottle", {
 	description = "Heavy Steel Bottle (empty)",
@@ -153,14 +153,14 @@ minetest.register_node("vessels:steel_bottle", {
 	sounds = default.node_sound_defaults(),
 })
 
-minetest.register_craft( {
+--[[minetest.register_craft( {
 	output = "vessels:steel_bottle 5",
 	recipe = {
 		{ "default:steel_ingot", "", "default:steel_ingot" },
 		{ "default:steel_ingot", "", "default:steel_ingot" },
 		{ "", "default:steel_ingot", "" }
 	}
-})
+})]]
 
 
 -- Make sure we can recycle them
@@ -170,7 +170,7 @@ minetest.register_craftitem("vessels:glass_fragments", {
 	inventory_image = "vessels_glass_fragments.png",
 })
 
-minetest.register_craft( {
+--[[minetest.register_craft( {
 	type = "shapeless",
 	output = "vessels:glass_fragments",
 	recipe = {
@@ -198,5 +198,5 @@ minetest.register_craft( {
 	type = "cooking",
 	output = "default:steel_ingot",
 	recipe = "vessels:steel_bottle",
-})
+})]]
 

@@ -64,7 +64,7 @@ local function get_nodes(pos)
 end
 
 local function get_flowing_dir(pos)
-	local data = get_nodes(pos)
+	local data = get_nodes(pos) or {}
 	local param2 = minetest.get_node(pos).param2
 	if param2 > 7 then
 		return
@@ -102,6 +102,7 @@ end
 
 local item_entity = minetest.registered_entities["__builtin:item"]
 local old_on_step = item_entity.on_step or function()end
+item_entity.on_punch = function()end
 
 item_entity.on_step = function(self, dtime)
 	old_on_step(self, dtime)
